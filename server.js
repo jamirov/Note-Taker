@@ -4,6 +4,7 @@ const fs = require('fs');
 const { response } = require('express');
 const app = express();
 const notesArr = [];
+const { v4: uuidv4 } = require('uuid');
 
 // Body parser Middleware.
 
@@ -38,12 +39,13 @@ function addNoteToDb (note) {
 
 app.post('/api/notes', (req,res) => {
     const newNote = req.body;
-    console.log(req.body);
-    tempArray.push(newNote);
+    const finalNote = { ...newNote, id:uuidv4() }  
+    console.log(finalNote);
+    tempArray.push(finalNote);
     console.log("POST request Started");
     console.log(tempArray);
     addNoteToDb (JSON.stringify(tempArray));
-    res.send(newNote);
+    res.json(req.body);
 });
 
 
